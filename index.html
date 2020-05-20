@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
+
+	<body style='margin : 0px; overflow: hidden;'>
+		<a-scene embedded arjs="sourceType: webcam;">
+			<a-assets>
+				<img id="image" src="cdvBIM20_v3.png">
+				<video type="video/mp4" id="video" autoplay="true" loop="true" src="vidTest.mov" webkit-playsinline></video>
+
+			</a-assets>
+			
+			
+			<a-entity rotation="-90 0 0">
+			<a-image src="#image" position='0 1 0'></a-image>
+			<a-video src="#video" position='0 -1 0' play="true"></a-video>
+			<a-obj-model src="Hab_coque_obj.obj" mtl="Hab_coque_obj.mtl"</a-obj-model>
+            <a-entity obj-model="obj: Hab_coque_obj.obj">
+
+			</a-entity>
+			<a-marker-camera type="pattern" url="ok.patt">></a-marker-camera>
+		</a-scene>
+		<script>
+		  window.addEventListener('click', function () 
+		  {
+		  var v = document.querySelector('#video');
+		  v.play();
+		  });
+		</script>
+	</body>
+	
+</html>
