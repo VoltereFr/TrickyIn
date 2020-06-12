@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="description" content="AR business card viewer for Ingerop">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<title>Ingerop - AR Business Card</title>
+		<link rel="icon" 
+			type="image/ico" 
+			href="img/favicon.ico">
+			
+		<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<script src="script.js"></script>
+		
+		<style>
+			.arjs-loader {
+				height: 100%;
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: rgba(0, 0, 0, 0.8);
+				z-index: 9999;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.arjs-loader div {
+				text-align: center;
+				font-size: 1.25em;
+				color: white;
+			}
+			
+			/* Essaie pour arrêter le scroll horizontal de safari, mais rien ne marche. 
+			Seul issue sur le sujet : https://github.com/jeromeetienne/AR.js/issues/512 */
+			html.a-fullscreen .a-canvas.a-canvas {
+				width: auto !important;
+				left: 50% !important;
+				transform: translateX(-50%);
+			}
+		</style>	
+	</head>
+	
+	<body style='margin : 0px; overflow: hidden;'>
+		<!--Liens interessants 
+		https://github.com/AR-js-org/AR.js
+		https://medium.com/@aschmelyun/tips-tricks-to-spice-up-your-ar-js-projects-fa89bc2ec296 
+		https://medium.com/chialab-open-source/10-tips-to-enhance-your-ar-js-app-8b44c6faffca
+		https://aframe.io/docs/1.0.0/introduction/ -->
+		<div class="arjs-loader" id="loader">
+			<div>Loading, please wait...</div>
+		</div>
+		<a-scene id="base" arjs="sourceType: webcam; trackingMethod: best; patternRatio: 0.75; debugUIEnabled: false;" 
+		loading-screen="dotsColor: black; backgroundColor: black"vr-mode-ui="enabled: false;"  renderer="logarithmicDepthBuffer: true;">
+			<!--Chargement de tous les éléments exterieurs-->
+			<a-assets timeout=2000>
+				<img id="img1" src="img/carte.png">
+				<img id="mail_img" src="img/mail.png">
+				<img id="web_img" src="img/web.png">
+				<img id="bubble_img" src="img/info.png">
+				<img id="bubble_tel" src="img/bulle_tel.png">
+				<img id="bubble_mail" src="img/bulle_mail.png">
+				<img id="linkedin_img" src="img/linkedin.png">
+				<img id="tel_img" src="img/telephone.png">
+				<video type="video/mp4" id="video" preload="auto" loop="true" src="img/vidTest.mov" webkit-playsinline></video>
+				<a-asset-item id="hall_obj" src="3D_obj/Hab_coque_obj.obj"></a-asset-item>
+				<a-asset-item id="hall_mtl" src="3D_obj/Hab_coque_obj.mtl"></a-asset-item>
+				<a-asset-item id="ingerop_obj" src="3D_obj/ingerop_logo.obj"></a-asset-item>
+			</a-assets>			
+			<!--a-anchor version plus récente de a-marker
+				Marker personnalisé ne peut pas s'importer localement, accès via internet obligatoire-->
+			<a-anchor type="pattern" registerevents emitevents="true"
+			url="https://raw.githubusercontent.com/VoltereFr/TrickyIn/master/QR_marker/pattern.patt">
+			
+			<a-entity id="scene" rotation="-90 0 -45">
+				<!--CF la doc de a-frame et le script pour les différentes options-->
+				<a-image src="#img1" id="ar_img1" class="collidable" enlarge="start_pos: 0 -1.5 0; end_pos: 0 0 1; start_scale: 2.1 1.4 1.4; end_scale: 3.75 2.5 2.5" scale="2.1 1.4 1.4"
+					animation__anime="property: position; from: 0 0 0; to: 0 -1.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-image>
+				
+				<a-image id="ar_website" src="#web_img" class="collidable" scale="0.30 0.30 0.30" linkable="path: https://www.ingerop.fr/"
+					animation__anime="property: position; from: 0 0 0; to: -0.8 -0.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-image>
+				
+				<a-image id="ar_mail" src="#mail_img" class="collidable" scale="0.30 0.30 0.30" spe_link="link: mailto:remi.brulurut@ingerop.com; elem: #ar_mail; bubble_src: #bubble_mail; bubble_pos: -2.2 1 0.1"
+					animation__anime="property: position; from: 0 0 0; to: 0.8 -0.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-image>
+				
+				<a-image id="ar_tel" src="#tel_img" class="collidable" scale="0.30 0.30 0.30" spe_link="link: tel:+33622827904; bubble_src: #bubble_tel; elem: #ar_tel; bubble_pos: 2.4 -1.4 0.1"
+					animation__anime="property: position; from: 0 0 0; to: -0.8 0.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-image>
+				
+				<a-image id="ar_linkedin" src="#linkedin_img" class="collidable" scale="0.30 0.30 0.30" linkable="path: https://www.linkedin.com/company/Ingerop"
+					animation__anime="property: position; from: 0 0 0; to: 0.8 0.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-image>
+				
+				<a-video id="ar_video" src="#video" class="collidable" scale="2.1 1.4 1.4" enlarge="start_pos: 0 1.5 0; end_pos: 0 0 1; start_scale: 2 1.5 1.5; end_scale: 3.75 2.5 2.5"
+					animation__anime="property: position; from: 0 0 0; to: 0 1.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-video>								
+				
+				<a-entity id="ar_logo" obj-model="obj: #ingerop_obj" rotation="-90 0 180" scale="0.2 0.2 0.2"
+					animation__anime="property: position; from: 0 0 0; to: 0 2.7 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-entity>
+				
+				<a-entity id="ar_hall" obj-model="obj: #hall_obj; mtl: #hall_mtl" scale="0.02 0.02 0.02" rotation="60 0 0" class="collidable"
+					enlarge="start_pos: 2 -0.5 0; end_pos: 1.5 -0.4 1; start_scale: 0.02 0.02 0.02; end_scale: 0.05 0.05 0.05"
+					animation__anime="property: position; from: 0.8 -0.5 0; to: 2 -0.5 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+				</a-entity>
+				
+				<!--Rotation du modèle, adapté au fait que l'obj ne soit pas centré sur un axe-->
+				<!--<a-entity id="hall" animation__anime="property: position; from: 1 0 0; to: 0 0 0; dur: 1000; easing: easeOutQuad; startEvents: anime">
+					<a-entity animation="property: position; from: 0 0 -1; to: 0 0 1; dur: 2000; loop: true; dir: alternate; easing: linear; delay: 1000">
+						<a-entity obj-model="obj: #obj; mtl: #mtl" position="0 0 -0.4" scale="0.02 0.02 0.02" model-opacity
+							animation="property: rotation; dur: 4000; to: 0 360 0; loop: true; easing: linear"				
+							animation__2="property: position; from: 0 0 0; to: -2 0 0; dur: 2000; loop: true; dir: alternate; easing: linear"
+							animation__3="property: model-opacity; dur: 10000; from: 1; to: 0; loop: true">
+						</a-entity>				
+					</a-entity>
+				</a-entity>-->					
+			</a-entity>									
+			</a-anchor>
+
+			<!--Utilisation d'un curseur fuse/gaze (selection en restant un certain temps sur l'élément) 
+				car le click fonctionne très mal https://medium.com/swlh/how-to-handle-click-events-on-ar-js-f397ea5994d-->
+			<a-entity camera id="cam" position="0 0 0">
+				<a-entity id="cursor"
+					geometry="primitive: ring; radiusInner: 0.036; radiusOuter: 0.055;"
+					material="color: blue; shader: flat"
+					cursor="fuse: true; fuseTimeout: 1400"
+					raycaster="objects: .collidable"
+					animation__mouseleave="property: scale; dur: 200; to: 1 1 1; from: 0.8 0.8 0.8; startEvents: mouseleave; easing: easeInCubic"
+					animation__fusing="property: scale; dur: 1300; from: 1 1 1; to: 0.1 0.1 0.1; startEvents: fusing; easing: easeInCubic"
+					animation__click="property: scale; dur: 200; to: 1 1 1; from: 0.1 0.1 0.1; startEvents: click; easing: easeInCubic">
+					<a-entity
+					geometry="primitive: ring; radiusInner: 0.04; radiusOuter: 0.06;"
+					material="color: black; shader: flat"></a-entity>
+				</a-entity>				
+				<!--Autre forme de curseur-->	
+				<!-- <a-entity position="0 0 -3" material="color: blue; shader: flat; opacity: 0.5" -->
+					<!-- geometry="primitive: ring; radiusInner: 0.05; radiusOuter: 0.06;"> -->
+				<!-- </a-entity> -->
+				<!-- <a-circle position="0 0 -3" -->
+					<!-- radius="0.01" -->
+					<!-- material="color: black; shader: flat; opacity: 0.8" -->
+					<!-- cursor="fuse: true; fuseTimeout: 1500" -->
+					<!-- raycaster="objects: .collidable" -->
+					<!-- animation__cir="property: radius; id: cursor; dur: 1400; from: 0.01; to: 0.05; startEvents: fusing; easing: easeInQuad" -->
+					<!-- animation__click="property: radius; dur: 300; to: 0.01; from: 0.06; startEvents: click; easing: easeOutCubic" -->
+					<!-- animation__mouseleave="property: radius; dur: 300; to: 0.01; from: 0.02; startEvents: mouseleave; easing: easeOutCubic"> -->
+				<!-- </a-circle> -->				
+			</a-entity>		
+		</a-scene>
+	</body>	
+</html>
