@@ -4,7 +4,11 @@ var browser =0;
 const navig = navigator.userAgent;
 
 //Pas très joli, mais efficace pour réparer les différences entre les navigateurs
-if((navig.indexOf("Opera") !=-1 || navig.indexOf('OPR')) != -1 ) 
+if(navig.indexOf("CriOS") !=-1 || navig.indexOf("Ecosia") != -1 )
+{
+	alert('Il se peut que les fonctionnalites de ce site ne soit pas compatibles avec votre navigateur!');
+}
+else if((navig.indexOf("Opera") !=-1 || navig.indexOf('OPR')) != -1 ) 
 {
 	//alert('Opera');
 }
@@ -25,12 +29,7 @@ else if(navig.indexOf("Safari") != -1 && navig.indexOf("Chrome") == -1 && navig.
 {
 	//alert('Safari');
 	browser=1;
-}			
-else 
-{
-   alert('Il se peut que les fonctionnalités de ce site ne soit pas compatibles avec votre navigateur!');
 }
-
 
 //Quand la page est chargée, on enleve l'écran de chargement et on positionne les éléments en fct du navigateur utilisé		
 window.onload = function () {
