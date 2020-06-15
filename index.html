@@ -32,14 +32,6 @@
 				font-size: 1.25em;
 				color: white;
 			}
-			
-			/* Essaie pour arrêter le scroll horizontal de safari, mais rien ne marche. 
-			Seul issue sur le sujet : https://github.com/jeromeetienne/AR.js/issues/512 */
-			html.a-fullscreen .a-canvas.a-canvas {
-				width: auto !important;
-				left: 50% !important;
-				transform: translateX(-50%);
-			}
 		</style>	
 	</head>
 	
@@ -52,8 +44,9 @@
 		<div class="arjs-loader" id="loader">
 			<div>Loading, please wait...</div>
 		</div>
-		<a-scene id="base" arjs="sourceType: webcam; trackingMethod: best; patternRatio: 0.75; debugUIEnabled: false;" 
-		loading-screen="dotsColor: black; backgroundColor: black"vr-mode-ui="enabled: false;"  renderer="logarithmicDepthBuffer: true;">
+		<a-scene embedded id="base" arjs="sourceType: webcam; trackingMethod: best; patternRatio: 0.75; debugUIEnabled: false;" 
+		loading-screen="dotsColor: black; backgroundColor: black"vr-mode-ui="enabled: false;"  renderer="logarithmicDepthBuffer: true;"
+		device-orientation-permission-ui="enabled: false">
 			<!--Chargement de tous les éléments exterieurs-->
 			<a-assets timeout=2000>
 				<img id="img1" src="img/carte.png">

@@ -78,10 +78,10 @@ AFRAME.registerComponent('registerevents', {
 							bubble.setAttribute('position', "0.3 0.23 -4");
 						bubble.setAttribute('scale', "0.6 0.6 0.6");
 						scene.appendChild(bubble);
-					}, 600);	
+					}, 700);	
 					setTimeout(() => {
 						document.querySelector('#cam').removeChild(document.querySelector('#ar_bubble'));
-					}, 4500);
+					}, 5000);
 					info=1;
 				}
 			}					
